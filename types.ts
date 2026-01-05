@@ -15,6 +15,7 @@ export interface Testimonial {
   videoThumbnail: string;
   resultMetric: string;
   resultLabel: string;
+  videoUrl?: string;
 }
 
 export interface PricingPlan {

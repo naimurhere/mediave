@@ -62,29 +62,29 @@ const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose, type }) => {
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-xl">
-      <div className="w-full max-w-2xl bg-slate-900 border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl relative animate-in fade-in zoom-in duration-300">
+      <div className="w-full max-w-2xl bg-slate-900 border border-white/10 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl relative animate-in fade-in zoom-in duration-300 max-h-[90vh] flex flex-col">
         <button 
           onClick={onClose}
-          className="absolute top-6 right-6 p-2 text-slate-400 hover:text-white transition-colors z-10"
+          className="absolute top-6 right-6 p-2 text-slate-400 hover:text-white transition-colors z-20"
         >
           <X size={24} />
         </button>
 
-        <div className="p-10">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-12 h-12 rounded-2xl bg-sky-500/10 flex items-center justify-center">
+        <div className="p-8 md:p-10 overflow-y-auto custom-scrollbar">
+          <div className="flex items-center gap-4 mb-6 md:mb-8">
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-sky-500/10 flex items-center justify-center flex-shrink-0">
               {content.icon}
             </div>
-            <h3 className="text-3xl font-black">{content.title}</h3>
+            <h3 className="text-2xl md:text-3xl font-black">{content.title}</h3>
           </div>
           
-          <div className="prose prose-invert max-w-none text-slate-400 leading-relaxed text-lg mb-8">
+          <div className="prose prose-invert max-w-none text-slate-400 leading-relaxed text-base md:text-lg mb-8">
             {content.body}
           </div>
 
           <button 
             onClick={onClose}
-            className="px-8 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-all border border-white/10"
+            className="w-full md:w-auto px-8 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-all border border-white/10"
           >
             Got it
           </button>

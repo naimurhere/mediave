@@ -172,8 +172,8 @@ const LiveConsultant: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-slate-950/95 backdrop-blur-2xl">
-      <div className="w-full max-w-2xl bg-slate-900 border border-white/10 rounded-[3rem] overflow-hidden shadow-2xl relative">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-6 bg-slate-950/95 backdrop-blur-2xl overflow-y-auto">
+      <div className="w-full max-w-2xl bg-slate-900 border border-white/10 rounded-[2.5rem] md:rounded-[3rem] overflow-hidden shadow-2xl relative my-auto">
         <button 
           onClick={stopSession}
           className="absolute top-6 right-6 p-2 text-slate-500 hover:text-white transition-colors z-10"
@@ -181,9 +181,9 @@ const LiveConsultant: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
           <X size={24} />
         </button>
         
-        <div className="p-12 text-center">
-          <div className="flex justify-center mb-10">
-            <div className={`relative w-40 h-40 rounded-full flex items-center justify-center transition-all duration-1000 ${
+        <div className="p-8 md:p-12 text-center">
+          <div className="flex justify-center mb-8 md:mb-10">
+            <div className={`relative w-32 h-32 md:w-40 md:h-40 rounded-full flex items-center justify-center transition-all duration-1000 ${
               isActive ? 'bg-sky-600 shadow-[0_0_80px_rgba(14,165,233,0.5)]' : 'bg-slate-800'
             }`}>
               {isActive && (
@@ -193,20 +193,20 @@ const LiveConsultant: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
                   ))}
                 </div>
               )}
-              {isActive ? <Mic className="text-white relative z-10" size={48} /> : <PhoneOff className="text-slate-600" size={48} />}
+              {isActive ? <Mic className="text-white relative z-10" size={40} /> : <PhoneOff className="text-slate-600" size={40} />}
             </div>
           </div>
 
-          <h3 className="text-3xl font-black mb-4">
+          <h3 className="text-2xl md:text-3xl font-black mb-4">
             {isConnecting ? 'Syncing with Wave...' : isActive ? 'Wave is Listening' : 'Live Content Audit'}
           </h3>
-          <p className="text-slate-400 mb-10 max-w-sm mx-auto leading-relaxed">
+          <p className="text-slate-400 mb-8 md:mb-10 max-w-sm mx-auto leading-relaxed text-sm md:text-base">
             {isActive ? "Speak naturally about your content goals. Wave will respond with high-impact strategy." : "Connect instantly with our AI Head of Strategy for a real-time brainstorming session."}
           </p>
 
           {transcription && (
-            <div className="mb-10 p-6 bg-slate-950/80 rounded-3xl border border-white/5 min-h-[80px] flex items-center justify-center animate-in fade-in slide-in-from-bottom-2">
-              <p className="text-sky-300 text-lg italic font-bold">"{transcription}"</p>
+            <div className="mb-8 md:mb-10 p-5 md:p-6 bg-slate-950/80 rounded-2xl md:rounded-3xl border border-white/5 min-h-[80px] flex items-center justify-center animate-in fade-in slide-in-from-bottom-2">
+              <p className="text-sky-300 text-base md:text-lg italic font-bold">"{transcription}"</p>
             </div>
           )}
 
@@ -214,21 +214,21 @@ const LiveConsultant: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
             {!isActive && !isConnecting ? (
               <button 
                 onClick={startSession}
-                className="px-10 py-5 bg-sky-600 hover:bg-sky-500 text-white font-black rounded-full transition-all flex items-center gap-3 shadow-lg shadow-sky-600/20 active:scale-95"
+                className="w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 bg-sky-600 hover:bg-sky-500 text-white font-black rounded-full transition-all flex items-center justify-center gap-3 shadow-lg shadow-sky-600/20 active:scale-95"
               >
-                <Mic size={22} /> START DISCOVERY CALL
+                <Mic size={20} /> START DISCOVERY CALL
               </button>
             ) : (
               <button 
                 onClick={stopSession}
-                className="px-10 py-5 bg-red-500/10 hover:bg-red-600 hover:text-white text-red-500 font-black border border-red-500/20 rounded-full transition-all flex items-center gap-3 active:scale-95"
+                className="w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 bg-red-500/10 hover:bg-red-600 hover:text-white text-red-500 font-black border border-red-500/20 rounded-full transition-all flex items-center justify-center gap-3 active:scale-95"
               >
-                <PhoneOff size={22} /> END SESSION
+                <PhoneOff size={20} /> END SESSION
               </button>
             )}
           </div>
           
-          <p className="mt-8 text-[10px] text-slate-600 font-black uppercase tracking-[0.2em]">Secure End-to-End Encryption</p>
+          <p className="mt-8 text-[9px] md:text-[10px] text-slate-600 font-black uppercase tracking-[0.2em]">Secure End-to-End Encryption</p>
         </div>
       </div>
     </div>
