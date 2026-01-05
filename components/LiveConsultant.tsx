@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenAI, Modality, LiveServerMessage } from '@google/genai';
-import { Mic, PhoneOff, X, AlertCircle } from 'lucide-react';
+import { Mic, PhoneOff, X } from 'lucide-react';
 
 function decode(base64: string) {
   const binaryString = atob(base64);
@@ -45,7 +45,6 @@ const LiveConsultant: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
   const [isActive, setIsActive] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [transcription, setTranscription] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
   
   const audioContextRef = useRef<AudioContext | null>(null);
   const outputAudioContextRef = useRef<AudioContext | null>(null);
@@ -55,17 +54,9 @@ const LiveConsultant: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
   const streamRef = useRef<MediaStream | null>(null);
 
   const startSession = async () => {
-    setError(null);
-    const apiKey = process.env.API_KEY;
-    
-    if (!apiKey) {
-      setError("API Key is missing. Please set the API_KEY environment variable.");
-      return;
-    }
-
     try {
       setIsConnecting(true);
-      const ai = new GoogleGenAI({ apiKey });
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       
       audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 16000 });
       outputAudioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
@@ -108,6 +99,7 @@ const LiveConsultant: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
               setTranscription("");
             }
 
+            // Iterate through all parts to find audio data
             const parts = message.serverContent?.modelTurn?.parts || [];
             for (const part of parts) {
               const base64Audio = part.inlineData?.data;
@@ -136,7 +128,6 @@ const LiveConsultant: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
           onclose: () => stopSession(),
           onerror: (e) => {
             console.error('Live API Error:', e);
-            setError("Connection error occurred. Please check your API key.");
             stopSession();
           },
         },
@@ -151,7 +142,6 @@ const LiveConsultant: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
       sessionRef.current = await sessionPromise;
     } catch (err) {
       console.error('Failed to start session:', err);
-      setError("Failed to initialize session. Ensure your API key is correct.");
       setIsConnecting(false);
     }
   };
@@ -210,18 +200,9 @@ const LiveConsultant: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
           <h3 className="text-2xl md:text-3xl font-black mb-4">
             {isConnecting ? 'Syncing with Wave...' : isActive ? 'Wave is Listening' : 'Live Content Audit'}
           </h3>
-          
-          {error ? (
-            <div className="flex flex-col items-center gap-4 mb-8 bg-red-500/10 p-6 rounded-2xl border border-red-500/20">
-              <AlertCircle className="text-red-500" size={32} />
-              <p className="text-red-400 text-sm font-medium">{error}</p>
-              <p className="text-slate-500 text-xs">Set your key as <strong>API_KEY</strong> in environment variables.</p>
-            </div>
-          ) : (
-            <p className="text-slate-400 mb-8 md:mb-10 max-w-sm mx-auto leading-relaxed text-sm md:text-base">
-              {isActive ? "Speak naturally about your content goals. Wave will respond with high-impact strategy." : "Connect instantly with our AI Head of Strategy for a real-time brainstorming session."}
-            </p>
-          )}
+          <p className="text-slate-400 mb-8 md:mb-10 max-w-sm mx-auto leading-relaxed text-sm md:text-base">
+            {isActive ? "Speak naturally about your content goals. Wave will respond with high-impact strategy." : "Connect instantly with our AI Head of Strategy for a real-time brainstorming session."}
+          </p>
 
           {transcription && (
             <div className="mb-8 md:mb-10 p-5 md:p-6 bg-slate-950/80 rounded-2xl md:rounded-3xl border border-white/5 min-h-[80px] flex items-center justify-center animate-in fade-in slide-in-from-bottom-2">

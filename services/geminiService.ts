@@ -1,26 +1,26 @@
-
 import { GoogleGenAI } from "@google/genai";
 
 export class GeminiService {
-  private ai: GoogleGenAI | null = null;
-
-  constructor() {
-    // Initial check but don't crash if missing
-    this.init();
-  }
+  private ai: any = null;
 
   private init() {
-    const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : undefined;
-    if (apiKey && !this.ai) {
+    if (this.ai) return true;
+    
+    // Look for key in window.process (shimmed) or native process.env
+    const apiKey = (window as any).process?.env?.API_KEY || (typeof process !== 'undefined' ? process.env.API_KEY : '');
+    
+    if (apiKey && apiKey !== '') {
       this.ai = new GoogleGenAI({ apiKey });
+      return true;
     }
+    return false;
   }
 
   async generateStrategy(prompt: string) {
-    this.init(); // Ensure initialized if key was added late
-
-    if (!this.ai) {
-      return "⚠️ **Configuration Required:** The AI Strategist needs an API Key. Please add `API_KEY` to your environment variables to enable this feature.";
+    const isReady = this.init();
+    
+    if (!isReady) {
+      return "Strategy Engine offline. Please ensure the API_KEY environment variable is set in your hosting dashboard.";
     }
 
     try {
@@ -31,24 +31,25 @@ export class GeminiService {
           systemInstruction: `You are the Mediave AI Video Strategist. You specialize in high-retention, high-impact content strategy.
           
           CRITICAL STYLE RULES:
-          1. BREVITY IS KING: Your responses must be short, punchy, and "hooked". Do not use filler words.
-          2. HOOK-FIRST: Always start with a high-impact viral hook or a bold statement.
-          3. DATA-DRIVEN: Use specific numbers (e.g., "3.5x retention", "the first 2 seconds") to sound authoritative.
-          4. PREMIUM TONE: Sound like a world-class creative director at a high-end agency.
+          1. BREVITY IS KING: Your responses must be short, punchy, and "hooked".
+          2. HOOK-FIRST: Always start with a high-impact viral hook.
+          3. PREMIUM TONE: Sound like a world-class creative director.
           
-          FORMATTING RULES:
-          - Use **bold text** for the most important "grabber" terms.
-          - Use clean bullet points for tactical steps.
-          - Limit responses to 2-3 short sections max.
-          - No fluff intro or outro. Go straight to the value.`,
+          FORMATTING:
+          - Use **bold text** for grabber terms.
+          - Use clean bullet points.
+          - Max 2-3 short sections.`,
           temperature: 0.9,
         },
       });
 
       return response.text;
-    } catch (error) {
+    } catch (error: any) {
       console.error("Gemini API Error:", error);
-      return "🌊 **Turbulence Detected:** I encountered an error while analyzing your strategy. Please verify your API key and try again.";
+      if (error.message?.includes("API key not valid")) {
+        return "Invalid API Key. Please verify your Gemini API Key in the environment settings.";
+      }
+      return "The connection is choppy. Please try again in a moment.";
     }
   }
 }
