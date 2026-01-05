@@ -1,18 +1,25 @@
-
 import { GoogleGenAI } from "@google/genai";
 
 export class GeminiService {
-  private ai: GoogleGenAI;
+  private ai: GoogleGenAI | null = null;
 
   constructor() {
-    // Always use the process.env.API_KEY directly as per guidelines
-    this.ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : undefined;
+    if (apiKey) {
+      this.ai = new GoogleGenAI({ apiKey });
+    }
   }
 
   async generateStrategy(prompt: string) {
+    if (!this.ai) {
+      const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : undefined;
+      if (!apiKey) return "API Key not configured. Please set API_KEY in your environment.";
+      this.ai = new GoogleGenAI({ apiKey });
+    }
+
     const response = await this.ai.models.generateContent({
       model: "gemini-3-pro-preview",
-      contents: prompt,
+      contents: [{ parts: [{ text: prompt }] }],
       config: {
         systemInstruction: `You are the Mediave AI Video Strategist. You specialize in high-retention, high-impact content strategy.
         
@@ -26,7 +33,7 @@ export class GeminiService {
         - Use **bold text** for the most important "grabber" terms.
         - Use clean bullet points for tactical steps.
         - Limit responses to 2-3 short sections max.
-        - No fluff intro or outro (e.g., skip "Sure, I can help with that"). Go straight to the value.`,
+        - No fluff intro or outro. Go straight to the value.`,
         temperature: 0.9,
       },
     });

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Logo from './components/Logo';
@@ -43,7 +42,7 @@ const App: React.FC = () => {
   // Modal States
   const [isLiveModalOpen, setIsLiveModalOpen] = useState(false);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
-  const [showcaseId, setShowcaseId] = useState<number | null>(null);
+  const [showcaseId, setShowcaseId] = useState<string | null>(null);
   const [infoModal, setInfoModal] = useState<{ isOpen: boolean; type: string }>({ isOpen: false, type: '' });
   const [selectedPlan, setSelectedPlan] = useState("");
 
@@ -146,34 +145,31 @@ const App: React.FC = () => {
         </div>
       </section>
 
-      {/* Retention Data Visualization */}
       <RetentionChart />
 
-      {/* Video Testimonials Carousel */}
       <VideoTestimonials onWatchStory={(id) => setShowcaseId(id)} />
 
-      {/* AI Strategist */}
       <AIConsultant />
 
-      {/* Portfolio Grid */}
+      {/* Portfolio Grid - Aligned with actual project data */}
       <section id="portfolio" className="py-24">
         <div className="container mx-auto px-6">
           <h2 className="text-4xl md:text-5xl font-black mb-16 text-center">The Media<span className="text-sky-500">ve</span> Look.</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
+            {TESTIMONIALS.map((project) => (
               <div 
-                key={i} 
-                onClick={() => setShowcaseId(i)}
+                key={project.id} 
+                onClick={() => setShowcaseId(project.id)}
                 className="aspect-[9/16] rounded-3xl bg-slate-800 overflow-hidden relative group cursor-pointer border border-white/5"
               >
                 <img 
-                  src={`https://picsum.photos/seed/mediave${i}/800/1422`} 
-                  alt="Portfolio Piece" 
+                  src={project.videoThumbnail} 
+                  alt={project.name} 
                   className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-8 flex flex-col justify-end">
                   <span className="text-sky-400 text-xs font-bold uppercase mb-2">Short-form mastery</span>
-                  <h4 className="text-xl font-bold text-white">Project Wave {i}</h4>
+                  <h4 className="text-xl font-bold text-white">{project.name}</h4>
                 </div>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 scale-50 group-hover:scale-100">
                   <Play className="fill-white text-white" />

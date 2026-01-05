@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { X, Play, BarChart3, Zap, Star } from 'lucide-react';
 import { TESTIMONIALS } from '../constants';
@@ -6,15 +5,14 @@ import { TESTIMONIALS } from '../constants';
 interface ShowcaseModalProps {
   isOpen: boolean;
   onClose: () => void;
-  projectId: number | null;
+  projectId: string | null;
 }
 
 const ShowcaseModal: React.FC<ShowcaseModalProps> = ({ isOpen, onClose, projectId }) => {
   if (!isOpen || projectId === null) return null;
 
-  const project = TESTIMONIALS.find(t => t.id === projectId.toString());
+  const project = TESTIMONIALS.find(t => t.id === projectId);
   
-  // Convert standard Vimeo link to embed link if necessary
   const getEmbedUrl = (url: string) => {
     if (url.includes('vimeo.com')) {
       const id = url.split('/').pop()?.split('?')[0];
@@ -33,7 +31,6 @@ const ShowcaseModal: React.FC<ShowcaseModalProps> = ({ isOpen, onClose, projectI
           <X size={24} />
         </button>
 
-        {/* Video Player Side */}
         <div className="w-full md:w-3/5 aspect-[9/16] md:aspect-auto bg-black relative flex items-center justify-center group overflow-hidden md:min-h-[500px]">
           {project?.videoUrl ? (
             <iframe 
@@ -67,7 +64,6 @@ const ShowcaseModal: React.FC<ShowcaseModalProps> = ({ isOpen, onClose, projectI
           </div>
         </div>
 
-        {/* Info Side */}
         <div className="flex-1 p-8 md:p-12 overflow-y-auto bg-slate-900 custom-scrollbar">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-[10px] font-black mb-6 uppercase tracking-widest">
             <Star size={12} className="fill-sky-400" /> Success Story
@@ -77,14 +73,14 @@ const ShowcaseModal: React.FC<ShowcaseModalProps> = ({ isOpen, onClose, projectI
             {project?.name}'s <span className="text-sky-500">Breakthrough.</span>
           </h3>
           <p className="text-slate-400 mb-8 leading-relaxed font-medium italic">
-            "{project?.content}"
+            "{project?.content || "Another Mediave success story optimized for peak retention."}"
           </p>
 
           <div className="grid grid-cols-2 gap-3 md:gap-4 mb-10">
             <div className="p-4 md:p-5 bg-slate-950 rounded-2xl md:rounded-3xl border border-white/5 shadow-inner">
               <BarChart3 className="text-sky-500 mb-2" size={18} />
-              <div className="text-2xl md:text-3xl font-black text-white">{project?.resultMetric}</div>
-              <div className="text-[9px] md:text-[10px] text-slate-500 uppercase font-black tracking-widest">{project?.resultLabel}</div>
+              <div className="text-2xl md:text-3xl font-black text-white">{project?.resultMetric || "+88%"}</div>
+              <div className="text-[9px] md:text-[10px] text-slate-500 uppercase font-black tracking-widest">{project?.resultLabel || "Retention"}</div>
             </div>
             <div className="p-4 md:p-5 bg-slate-950 rounded-2xl md:rounded-3xl border border-white/5 shadow-inner">
               <Zap className="text-sky-500 mb-2" size={18} />

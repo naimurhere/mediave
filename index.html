@@ -1,10 +1,38 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mediave | Ride the Next Wave of Content</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Mediave | Premium Video Editing Agency">
+    <meta name="description" content="Mediave is a high-performance creative agency specializing in cinematic video editing and data-driven content strategy for top-tier creators.">
+    <meta name="theme-color" content="#020617">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mediave.creative/">
+    <meta property="og:title" content="Mediave | Ride the Next Wave of Content">
+    <meta property="og:description" content="High-performance video editing that blends cinematic storytelling with data-driven strategy. Scale your reach with Mediave.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&q=80&w=1200&h=630">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://mediave.creative/">
+    <meta property="twitter:title" content="Mediave | Ride the Next Wave of Content">
+    <meta property="twitter:description" content="High-performance video editing that blends cinematic storytelling with data-driven strategy.">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&q=80&w=1200&h=630">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 80V20L50 50L80 20V80' stroke='%230ea5e9' stroke-width='12' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+    <link rel="canonical" href="https://mediave.creative/" />
+
+    <!-- Shim for process.env used by SDKs -->
+    <script>
+      window.process = window.process || { env: {} };
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -12,6 +40,8 @@
             font-family: 'Inter', sans-serif;
             background-color: #020617;
             color: #f8fafc;
+            margin: 0;
+            padding: 0;
         }
         .bg-wave-gradient {
             background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 50%, #1e40af 100%);
@@ -34,6 +64,17 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #475569;
         }
+        /* Custom scrollbar for modal content */
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(15, 23, 42, 0.5);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(51, 65, 85, 0.5);
+          border-radius: 10px;
+        }
     </style>
 <script type="importmap">
 {
@@ -50,5 +91,7 @@
 </head>
 <body>
     <div id="root"></div>
+    <!-- Load the main application entry point -->
+    <script type="module" src="index.tsx"></script>
 </body>
 </html>
