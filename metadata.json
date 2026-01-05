@@ -1,0 +1,7 @@
+{
+  "name": "Mediave Creative Agency",
+  "description": "A premium video editing agency landing page featuring cinematic aesthetics, high-retention strategy visualizations, and an AI-powered live voice content strategist.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
